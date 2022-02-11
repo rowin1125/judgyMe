@@ -1,0 +1,1 @@
+export { handlePrismaOrm } from './handlePrismaOrm';

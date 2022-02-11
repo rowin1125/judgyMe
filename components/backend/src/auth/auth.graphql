@@ -1,0 +1,37 @@
+scalar DateTime
+
+type User {
+  id: Int!
+  email: String!
+  hash: String
+  hashedRt: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input UserCreateInput {
+  email: String!
+  hash: String!
+  hashedRt: String
+}
+
+input SigninInput {
+  email: String!
+  hash: String
+}
+
+type TokenResponse {
+  access_token: String
+  refresh_token: String
+}
+
+type Mutation {
+  localSignup(userCreateInput: UserCreateInput): TokenResponse
+  localSignin(signinInput: SigninInput): TokenResponse
+  logout: Boolean
+  refreshToken: TokenResponse
+}
+
+type Query {
+  users: [User]!
+}

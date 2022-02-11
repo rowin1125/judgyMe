@@ -1,0 +1,50 @@
+version: '3'
+services:
+  web:
+    build:
+      context: ./components/web
+      target: dev
+      args:
+        USERID: ${USERID:-1000}
+        GROUPID: ${GROUPID:-1000}
+    env_file:
+      - ./components/web/.env.local
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=judgyme
+      - traefik.http.routers.judgyme.rule=Host(`judgyme-dev.nl`)
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./components/web:/usr/src/:delegated
+  backend:
+    build:
+      context: ./components/backend
+      target: dev
+      args:
+        USERID: ${USERID:-1000}
+        GROUPID: ${GROUPID:-1000}
+    env_file:
+      - ./components/backend/.env
+    ports:
+      - "5555:5555"
+      - "5001:5001"
+    volumes:
+      - ./components/backend:/usr/src/:delegated
+  database:
+    image: postgres:14
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: rowin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: judgy_me_dev
+
+networks:
+  default:
+    name: judgyme
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.112.0/24
