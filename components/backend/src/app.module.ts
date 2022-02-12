@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { ApolloDriver } from '@nestjs/apollo';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './shared/guards';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
@@ -22,6 +24,10 @@ import { AtGuard } from './shared/guards';
       //   'graphql-ws': true, // new way of subscribtions
       //   'subscriptions-transport-ws': true, // old way of subscriptions used by prisma playground
       // },
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
     }),
     PrismaModule,
     AuthModule,
