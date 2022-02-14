@@ -1,5 +1,7 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as argon2 from 'argon2';
 import { UserCreateInput } from 'src/@generated/prisma-nestjs-graphql/user/user-create.input';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -11,30 +13,27 @@ export class AuthService {
 
   async localSignup(userCreateInput: UserCreateInput): Promise<AuthType.Token> {
     const hash = await argon2.hash(userCreateInput.hash);
+    let newUser: User;
 
-    const newUser = await this.prisma.user.create({
-      data: {
-        ...userCreateInput,
-        hash,
-      },
-    });
+    try {
+      newUser = await this.prisma.user.create({
+        data: {
+          ...userCreateInput,
+          hash,
+        },
+      });
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ForbiddenException('Duplicate User');
+        }
+      }
+    }
 
     const tokens = await this.getTokens(newUser.id, newUser.email);
     await this.updateRtHash(newUser.id, tokens.refresh_token);
 
     return tokens;
-  }
-
-  async updateRtHash(userId: number, rt: string) {
-    const hashedRt = await argon2.hash(rt);
-    await this.prisma.user.update({
-      where: {
-        id: userId,
-      },
-      data: {
-        hashedRt,
-      },
-    });
   }
 
   async localSignin(
@@ -61,18 +60,35 @@ export class AuthService {
   }
 
   async logout(userId: number): Promise<boolean> {
-    await this.prisma.user.updateMany({
+    try {
+      await this.prisma.user.updateMany({
+        where: {
+          id: userId,
+          hashedRt: {
+            not: null,
+          },
+        },
+        data: {
+          hashedRt: null,
+        },
+      });
+    } catch (error) {
+      // TODO: Replace me with a Nestjs error
+      throw new Error('failed logout');
+    }
+    return true;
+  }
+
+  async updateRtHash(userId: number, rt: string) {
+    const hashedRt = await argon2.hash(rt);
+    await this.prisma.user.update({
       where: {
         id: userId,
-        hashedRt: {
-          not: null,
-        },
       },
       data: {
-        hashedRt: null,
+        hashedRt,
       },
     });
-    return true;
   }
 
   async refreshToken(userId: number, rt: string) {

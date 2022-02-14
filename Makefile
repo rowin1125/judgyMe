@@ -25,6 +25,7 @@ init: intro \
 		do-start-containers \
 		do-start-proxy \
 		do-updates \
+		do-db-push \
 		do-show-applications
 		#  do-seed-database \
 
