@@ -68,16 +68,17 @@ commands:
 	@echo "    make stop                          Stop the project containers."
 	@echo "    make down                          Stop the project containers and clean the docker-compose environment."
 	@echo "    make restart                       Restart the project containers."
-	@echo "    make web-shell                 Open webshop shell in container."
-	@echo "    make backend-shell         Open webshop backend shell in container."
+	@echo "    make web-shell                 		Open web shell in container."
+	@echo "    make backend-shell         				Open web backend shell in container."
 	@echo "\nTests:"
 	@echo "    make test                          Run all test suits."
-	@echo "    make unit-tests                    Run the unittests with PHPUnit."
+	@echo "    make int-tests                    	Run the intergration tests with jest."
+	@echo "    make unit-tests                    Run the unit tests with jest."
 	@echo "    make code-checks                   Run all code checks."
 	@echo "    make code-fix                      Autofix codestyle issues."
 	@echo "\nDatabase:"
-	@echo "    make do-db-seed                       Seed the database with dummy data."
-	@echo "    make do-db-reset                      Reset / flush the database."
+	@echo "    make do-db-seed                    Seed the database with dummy data."
+	@echo "    make do-db-reset                   Reset / flush the database."
 	@echo "\nHost proxy"
 	@echo "    make stop-hosts-proxy              Stop the hosts proxy (for all projects!)."
 
@@ -126,6 +127,10 @@ do-backend-shell:
 do-database-shell:
 	@echo "\n=== Open shell in database container ===\n"
 	@${docker-compose-exec} database sh
+
+do-database-test-shell:
+	@echo "\n=== Open shell in database-test container ===\n"
+	@${docker-compose-exec} database-test sh
 
 # ===========================
 # Update commands
@@ -180,12 +185,12 @@ do-prisma-studio:
 do-copy-env-files: do-backend-copy-env-file do-web-copy-env-file
 
 do-backend-copy-env-file:
-	@echo "\n=== backend: Create .env.local file if not exists ===\n"
+	@echo "\n=== backend: Create .env file if not exists ===\n"
 	@${docker-run-alpine} sh -c \
 		"if [ ! -f components/backend/.env ]; \
 		then \
 			cp components/backend/.env.dist components/backend/.env \
-			&& echo '✔ .env.local has been created'; \
+			&& echo '✔ .env has been created'; \
 		fi"
 
 do-web-copy-env-file:
@@ -223,3 +228,13 @@ do-check-hosts-file:
 	You are missing some hosts in your /etc/hosts file:" \
 	&& cat docs/03-hosts.md \
 	&& false)
+
+# ===========================
+# Tests
+# ===========================
+
+do-be-int-tests:
+	@echo "\n=== Backend: Resetting test-db for int-tests ===\n"
+	docker-compose rm -s -v database-test --force && make do-start-docker-containers && sleep 5
+	@echo "\n=== Backend: Run intergration tests ===\n"
+	@${docker-compose-run} backend-test npm run test:int

@@ -39,6 +39,27 @@ services:
       POSTGRES_USER: rowin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: judgy_me_dev
+  backend-test:
+    build:
+      context: ./components/backend
+      target: test
+      args:
+        USERID: ${USERID:-1000}
+        GROUPID: ${GROUPID:-1000}
+    env_file:
+      - ./components/backend/.env.test
+    ports:
+      - "5002:5001"
+    volumes:
+      - ./components/backend:/usr/src/:delegated
+  database-test:
+    image: postgres:14
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_USER: rowin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: judgy_me_test
 
 networks:
   default:

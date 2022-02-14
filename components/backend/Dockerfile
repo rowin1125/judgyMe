@@ -25,6 +25,18 @@ RUN apk --no-cache add \
 
 CMD ["npm", "run", "dev"]
 
+FROM base AS test
+
+ARG USERID
+ARG GROUPID
+
+RUN apk --no-cache add \
+  shadow \
+  && usermod -u ${USERID} node \
+  && groupmod -o -g ${GROUPID} node
+
+CMD ["npm", "run", "dev"]
+
 # ======================
 # CI stage
 # ======================
