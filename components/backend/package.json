@@ -23,6 +23,8 @@
     "test": "jest",
     "pretest:int": "dotenv -e .env.test -- npx prisma migrate reset --skip-seed --force",
     "test:int": "dotenv -e .env.test -- jest -i --no-cache --watchAll --config jest-int.json",
+    "pretest:int:ci": "dotenv -e .env.test -- npx prisma migrate reset --skip-seed --force",
+    "test:int:ci": "dotenv -e .env.test -- jest -i --no-cache --config jest-int.json --coverage",
     "test:watch": "jest --watchAll",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
