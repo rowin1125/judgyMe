@@ -16,7 +16,7 @@ Run `make init` to initialize the local development environment and install all 
 
 ## Applications
 
-See [applications](10-applications.md)
+See [applications](/docs/02-applications.md)
 
 ## Environment variables (backend)
 
@@ -26,4 +26,4 @@ Variables which are used in the config are listed in the `.env.local.dist` file 
 
 ## Required host definitions
 
-See [Hosts](09-hosts.md)
+See [Hosts](03-hosts.md)
