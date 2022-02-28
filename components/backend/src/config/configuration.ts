@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 export default () => ({
   port: parseInt(process.env.PORT, 10) || 5001,
   database: {

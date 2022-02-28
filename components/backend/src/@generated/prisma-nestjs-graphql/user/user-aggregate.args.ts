@@ -1,14 +1,15 @@
 import { Field } from '@nestjs/graphql';
 import { ArgsType } from '@nestjs/graphql';
-import { UserWhereInput } from './user-where.input';
-import { UserOrderByWithRelationInput } from './user-order-by-with-relation.input';
-import { UserWhereUniqueInput } from './user-where-unique.input';
 import { Int } from '@nestjs/graphql';
-import { UserCountAggregateInput } from './user-count-aggregate.input';
+
 import { UserAvgAggregateInput } from './user-avg-aggregate.input';
-import { UserSumAggregateInput } from './user-sum-aggregate.input';
-import { UserMinAggregateInput } from './user-min-aggregate.input';
+import { UserCountAggregateInput } from './user-count-aggregate.input';
 import { UserMaxAggregateInput } from './user-max-aggregate.input';
+import { UserMinAggregateInput } from './user-min-aggregate.input';
+import { UserOrderByWithRelationInput } from './user-order-by-with-relation.input';
+import { UserSumAggregateInput } from './user-sum-aggregate.input';
+import { UserWhereInput } from './user-where.input';
+import { UserWhereUniqueInput } from './user-where-unique.input';
 
 @ArgsType()
 export class UserAggregateArgs {

@@ -12,7 +12,7 @@ export class AtGuard extends AuthGuard('jwt') {
   }
 
   canActivate(
-    context: ExecutionContext,
+    context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
     const ctx = GqlExecutionContext.create(context);
     const isPublic = this.reflector.getAllAndOverride('isPublic', [

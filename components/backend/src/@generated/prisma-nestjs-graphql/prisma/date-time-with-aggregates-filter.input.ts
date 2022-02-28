@@ -1,8 +1,9 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+
+import { NestedDateTimeFilter } from './nested-date-time-filter.input';
 import { NestedDateTimeWithAggregatesFilter } from './nested-date-time-with-aggregates-filter.input';
 import { NestedIntFilter } from './nested-int-filter.input';
-import { NestedDateTimeFilter } from './nested-date-time-filter.input';
 
 @InputType()
 export class DateTimeWithAggregatesFilter {

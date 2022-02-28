@@ -1,9 +1,9 @@
 import { Test } from '@nestjs/testing';
+import * as argon2 from 'argon2';
 import { UserCreateInput } from 'src/@generated/prisma-nestjs-graphql/user/user-create.input';
 import { AppModule } from 'src/app.module';
 import { AuthService } from 'src/auth/auth.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import * as argon2 from 'argon2';
 
 describe('Auth Service Int', () => {
   let prisma: PrismaService;
@@ -36,13 +36,13 @@ describe('Auth Service Int', () => {
 
       expect(await argon2.verify(user.hash, userInput.hash)).toBeTruthy();
       expect(
-        await argon2.verify(user.hashedRt, tokens.refresh_token),
+        await argon2.verify(user.hashedRt, tokens.refresh_token)
       ).toBeTruthy();
     });
 
     it('should throw an error when saving with the same email', async () => {
       await authService.localSignup(userInput);
-      await authService.localSignup(userInput).catch((e) => {
+      await authService.localSignup(userInput).catch(e => {
         expect(e.status).toBe(403);
       });
     });

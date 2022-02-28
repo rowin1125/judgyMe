@@ -1,5 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { ArgsType } from '@nestjs/graphql';
+
 import { UserCreateManyInput } from './user-create-many.input';
 
 @ArgsType()

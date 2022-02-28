@@ -5,6 +5,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as argon2 from 'argon2';
 import { UserCreateInput } from 'src/@generated/prisma-nestjs-graphql/user/user-create.input';
 import { PrismaService } from 'src/prisma/prisma.service';
+
 import { AuthType } from './auth';
 
 @Injectable()
@@ -37,7 +38,7 @@ export class AuthService {
   }
 
   async localSignin(
-    siginCredentials: Pick<UserCreateInput, 'email' | 'hash'>,
+    siginCredentials: Pick<UserCreateInput, 'email' | 'hash'>
   ): Promise<AuthType.Token> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -49,7 +50,7 @@ export class AuthService {
 
     const passwordMatches = await argon2.verify(
       user.hash,
-      siginCredentials.hash,
+      siginCredentials.hash
     );
     if (!passwordMatches) throw new ForbiddenException('Wrong credentials');
 
@@ -129,7 +130,7 @@ export class AuthService {
         {
           secret: 'at-secret',
           expiresIn: 60 * 15,
-        },
+        }
       ),
       this.jwtService.signAsync(
         {
@@ -139,7 +140,7 @@ export class AuthService {
         {
           secret: 'rt-secret',
           expiresIn: 60 * 60 * 24 * 7,
-        },
+        }
       ),
     ]);
 

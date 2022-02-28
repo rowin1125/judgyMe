@@ -6,4 +6,4 @@ export enum QueryMode {
 }
 
 
-registerEnumType(QueryMode, { name: 'QueryMode', description: undefined })
+registerEnumType(QueryMode, { name: 'QueryMode', description: undefined });

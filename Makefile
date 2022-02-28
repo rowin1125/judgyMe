@@ -240,3 +240,31 @@ do-be-int-tests:
 	docker-compose rm -s -v database-test --force && make do-start-docker-containers && sleep 5
 	@echo "\n=== Backend: Run intergration tests ===\n"
 	@${docker-compose-run} backend-test npm run test:int
+
+# ===========================
+# code quality
+# ===========================
+
+code-fix: \
+	do-web-code-fix \
+	do-backend-code-fix
+
+code-checks: \
+	do-web-code-check \
+	do-backend-code-check
+
+do-web-code-fix:
+	@echo "\n=== Web: Fixing web code with Eslint 🏗️ ===\n"
+	@${docker-compose-run} web npm run lint:fix
+
+do-backend-code-fix:
+	@echo "\n=== Web: Fixing web code with Eslint 🏗️ ===\n"
+	@${docker-compose-run} backend npm run lint:fix
+
+do-web-code-check:
+	@echo "\n=== Web: Checking web code with Eslint 👮‍♂️🚨 ===\n"
+	@${docker-compose-run} web npm run lint
+
+do-backend-code-check:
+	@echo "\n=== Web: Checking web code with Eslint 👮‍♂️🚨 ===\n"
+	@${docker-compose-run} backend npm run lint

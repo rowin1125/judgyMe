@@ -1,8 +1,9 @@
 import { UseGuards } from '@nestjs/common';
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserCreateInput } from 'src/@generated/prisma-nestjs-graphql/user/user-create.input';
 import { CurrentUser, CurrentUserId, Public } from 'src/shared/decorators';
 import { RtGuard } from 'src/shared/guards';
+
 import { AuthType } from './auth';
 import { AuthService } from './auth.service';
 
@@ -13,7 +14,7 @@ export class AuthResolver {
   @Public()
   @Mutation('localSignup')
   localSignup(
-    @Args('userCreateInput') userCreateInput: UserCreateInput,
+    @Args('userCreateInput') userCreateInput: UserCreateInput
   ): Promise<AuthType.Token> {
     return this.authService.localSignup(userCreateInput);
   }
@@ -22,14 +23,13 @@ export class AuthResolver {
   @Mutation('localSignin')
   localSignin(
     @Args('signinInput')
-    signinInput: Extract<UserCreateInput, 'email' | 'hash'>,
+    signinInput: Extract<UserCreateInput, 'email' | 'hash'>
   ): Promise<AuthType.Token> {
     return this.authService.localSignin(signinInput);
   }
 
   @Mutation('logout')
   logout(@CurrentUserId() userId: number) {
-    console.log('userId', userId);
     return this.authService.logout(userId);
   }
 
@@ -38,7 +38,7 @@ export class AuthResolver {
   @Mutation('refreshToken')
   refreshToken(
     @CurrentUser('refreshToken') refreshToken: string,
-    @CurrentUserId() userId: number,
+    @CurrentUserId() userId: number
   ) {
     return this.authService.refreshToken(userId, refreshToken);
   }

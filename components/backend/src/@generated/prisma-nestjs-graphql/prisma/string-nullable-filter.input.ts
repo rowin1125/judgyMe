@@ -1,7 +1,8 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { QueryMode } from './query-mode.enum';
+
 import { NestedStringNullableFilter } from './nested-string-nullable-filter.input';
+import { QueryMode } from './query-mode.enum';
 
 @InputType()
 export class StringNullableFilter {

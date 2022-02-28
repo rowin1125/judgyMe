@@ -1,8 +1,11 @@
-import type { NextPage } from "next";
-import { withUrqlClient } from "next-urql";
-import Head from "next/head";
 import React from "react";
+
+import type { NextPage } from "next";
+import Head from "next/head";
+import { withUrqlClient } from "next-urql";
+
 import { useUsersQuery } from "../src/generated/graphql";
+
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
@@ -21,7 +24,7 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        {result.data?.users.map((user) => {
+        {result.data?.users.map(user => {
           if (!user) return null;
 
           return (

@@ -1,16 +1,17 @@
+import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { GraphQLDateTime } from 'graphql-iso-date';
-import { PrismaModule } from './prisma/prisma.module';
+
 import { AuthModule } from './auth/auth.module';
-import { ApolloDriver } from '@nestjs/apollo';
-import { APP_GUARD } from '@nestjs/core';
-import { AtGuard } from './shared/guards';
-import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { PrismaModule } from './prisma/prisma.module';
+import { AtGuard } from './shared/guards';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [

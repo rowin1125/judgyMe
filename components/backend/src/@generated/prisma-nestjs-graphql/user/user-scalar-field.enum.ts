@@ -10,4 +10,4 @@ export enum UserScalarFieldEnum {
 }
 
 
-registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description: undefined })
+registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description: undefined });

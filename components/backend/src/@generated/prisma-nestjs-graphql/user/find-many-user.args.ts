@@ -1,10 +1,11 @@
 import { Field } from '@nestjs/graphql';
 import { ArgsType } from '@nestjs/graphql';
-import { UserWhereInput } from './user-where.input';
-import { UserOrderByWithRelationInput } from './user-order-by-with-relation.input';
-import { UserWhereUniqueInput } from './user-where-unique.input';
 import { Int } from '@nestjs/graphql';
+
+import { UserOrderByWithRelationInput } from './user-order-by-with-relation.input';
 import { UserScalarFieldEnum } from './user-scalar-field.enum';
+import { UserWhereInput } from './user-where.input';
+import { UserWhereUniqueInput } from './user-where-unique.input';
 
 @ArgsType()
 export class FindManyUserArgs {
