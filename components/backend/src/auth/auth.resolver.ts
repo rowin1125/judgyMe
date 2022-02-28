@@ -43,6 +43,7 @@ export class AuthResolver {
     return this.authService.refreshToken(userId, refreshToken);
   }
 
+  @Public()
   @Query('users')
   users() {
     return this.authService.users();

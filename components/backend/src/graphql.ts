@@ -21,8 +21,6 @@ export class SigninInput {
 export class User {
     id: number;
     email: string;
-    hash?: Nullable<string>;
-    hashedRt?: Nullable<string>;
     createdAt?: Nullable<DateTime>;
     updatedAt?: Nullable<DateTime>;
 }

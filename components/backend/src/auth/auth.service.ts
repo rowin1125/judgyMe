@@ -109,7 +109,14 @@ export class AuthService {
   }
 
   users() {
-    return `This action returns all auth`;
+    return this.prisma.user.findMany({
+      select: {
+        email: true,
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
   }
 
   async getTokens(userId: number, email: string): Promise<AuthType.Token> {

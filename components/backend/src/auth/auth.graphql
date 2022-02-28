@@ -3,8 +3,6 @@ scalar DateTime
 type User {
   id: Int!
   email: String!
-  hash: String
-  hashedRt: String
   createdAt: DateTime
   updatedAt: DateTime
 }

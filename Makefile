@@ -24,6 +24,7 @@ init: intro \
 		do-build-containers \
 		do-start-containers \
 		do-start-proxy \
+		do-connect-proxy \
 		do-updates \
 		do-db-push \
 		do-show-applications
